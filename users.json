@@ -1,0 +1,40 @@
+{
+    "1000": {
+        "name": "admin",
+        "email": "admin@example.com",
+        "password_hash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+        "balance": {
+            "USD": 0.0,
+            "KHR": 0
+        }
+    },
+    "1001": {
+        "name": "josh",
+        "email": "josh@email.com",
+        "password_hash": "f39c31383ad312d96660bbce50a04e40a0a933308ef330290ecf93711344976d",
+        "balance": {
+            "USD": 1000.0,
+            "KHR": 40000
+        },
+        "transactions": [
+            {
+                "transaction_id": "TXN-C4353AC1",
+                "timestamp": "2026-11-18 12:07:34 +0700",
+                "type": "Deposit",
+                "currency": "USD",
+                "amount": 1000.0,
+                "balance_after": 1000.0,
+                "details": "Cash deposit"
+            },
+            {
+                "transaction_id": "TXN-1D70A5BB",
+                "timestamp": "2026-11-18 12:07:48 +0700",
+                "type": "Deposit",
+                "currency": "KHR",
+                "amount": 40000,
+                "balance_after": 40000,
+                "details": "Cash deposit"
+            }
+        ]
+    }
+}
