@@ -1,87 +1,143 @@
-# CLI Bank
+# Python Banking System (CLI Bank)
+
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![Rich](https://img.shields.io/badge/UI-Rich-00FFFF)
+![Interface](https://img.shields.io/badge/interface-command%20line-39FF14)
 
 A simple banking system that runs in the terminal, written in Python.
-Each account holds two balances: **US dollars (USD)** and **Cambodian riels (KHR)**.
-All account data is saved in a JSON file, so nothing is lost when you close the program.
+Each account holds two balances, **US dollars (USD)** and **Cambodian riels (KHR)**, and all data is saved
+to a JSON file, so nothing is lost when you close the program.
 
----
+## Table of contents
 
-## What you need to download
-
-| What | Why | Where |
-|------|-----|-------|
-| **Python 3.8 or newer** | Runs the program (tested on Python 3.13) | <https://www.python.org/downloads/>. On Windows, tick **"Add python.exe to PATH"** during setup. |
-| **Rich** (Python library) | Colors, the welcome banner and the transaction tables | Installed with `pip` (see below) |
-| **Windows Terminal** *(recommended, Windows only)* | Shows the full cyan and electric-green colors | Already included in Windows 11; otherwise get it from the Microsoft Store |
-
-Everything else the program uses (`json`, `hashlib`, `getpass`, `uuid`, `datetime`) comes with Python.
-
-## How to run it
-
-1. Open a terminal in the project folder.
-2. Install Rich (only needed once):
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Start the bank:
-
-   ```bash
-   python bank.py
-   ```
-
-To check your Python version, run `python --version`.
-
-## Built-in account
-
-| ID | Password |
-|----|----------|
-| `1000` | `admin` |
-
-You can create more accounts with **Sign up**.
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Usage](#usage)
+- [Feature details](#feature-details)
+- [How it works](#how-it-works)
+- [Project structure](#project-structure)
+- [Configuration](#configuration)
+- [Notes and limitations](#notes-and-limitations)
 
 ---
 
 ## Features
 
+- 🔐 **Sign up and login:** accounts get an automatic ID; passwords are hidden and stored as hashes
+- 💵 **Two currencies:** every account has a USD and a KHR balance, shown automatically on the main menu
+- ➕ **Deposit** with a minimum of $1 / 4,000 KHR
+- ➖ **Withdraw** up to your balance
+- 🔁 **Transfer** money to another account
+- 💱 **Currency exchange** between USD and KHR (1 USD = 4,000 KHR)
+- 📜 **Transaction history** in a colored table with transaction IDs, timestamps and balances
+- 🗑️ **Delete account** with password and `DELETE` confirmation
+- 🎨 **Colorful interface** in cyan and electric green, with a one-line ASCII welcome banner
+
+---
+
+## Getting started
+
+### Requirements
+
+| What | Why | Where |
+|------|-----|-------|
+| **Python 3.8 or newer** | Runs the program (tested on Python 3.13) | <https://www.python.org/downloads/>. On Windows, tick **"Add python.exe to PATH"** during setup. |
+| **Rich** (Python library) | Colors, the welcome banner and the transaction tables | Installed with `pip` (see below) |
+| **Windows Terminal** *(recommended on Windows)* | Shows the full cyan and electric-green colors | Included in Windows 11; otherwise from the Microsoft Store |
+
+Everything else the program uses (`json`, `hashlib`, `getpass`, `uuid`, `datetime`) comes with Python.
+To check your Python version, run `python --version`.
+
+### Installation
+
+```bash
+git clone https://github.com/mrrmara1100/Python-BankingSystem.git
+cd Python-BankingSystem
+pip install -r requirements.txt
+```
+
+You can also download the project as a ZIP from GitHub (**Code → Download ZIP**), unzip it, and run
+`pip install -r requirements.txt` inside the folder.
+
+### Run
+
+```bash
+python bank.py
+```
+
+### Default account
+
+| ID | Password |
+|----|----------|
+| `1000` | `admin` |
+
+Create more accounts with **Sign up** on the start menu.
+
+---
+
+## Usage
+
+### Start menu
+
+| Option | What it does |
+|--------|--------------|
+| `1` Login | Log in with your ID and password |
+| `2` Sign up | Create a new account |
+| `3` Exit | Close the program |
+
+### Main menu (after login)
+
+Your name, ID, email and both balances are shown in a box above this menu.
+
+| Option | What it does |
+|--------|--------------|
+| `1` Deposit | Add USD or KHR to your account |
+| `2` Withdraw | Take USD or KHR out of your account |
+| `3` Transfer | Send money to another account |
+| `4` Currency exchange | Convert between your USD and KHR balances |
+| `5` Transaction history | See every transaction in a table |
+| `6` Logout | Go back to the start menu |
+| `7` Delete account | Permanently delete your account |
+
+On every feature screen, enter **`0`** to go back to the main menu.
+
+---
+
+## Feature details
+
 ### Sign up
-Enter your **name**, **email** and a **password** (at least 4 characters, typed twice to confirm).
-The bank gives you an **ID** automatically (the next number after the highest existing ID, e.g. 1001, 1002, …)
-and shows your new ID and name. New accounts start with $0.00 and 0 KHR.
+- Enter your **name**, **email** and a **password** (at least 4 characters, typed twice to confirm).
+- The bank assigns your **ID** automatically (the next number after the highest ID: 1001, 1002, …) and
+  shows your new ID and name.
+- New accounts start with $0.00 and 0 KHR.
 
 ### Login
-Log in with your **ID** and **password**. You get 3 attempts before access is refused.
-Passwords are hidden while you type and are never stored as plain text: only a SHA-256 hash is saved.
-
-### Automatic balance display
-After you log in, a box above the main menu always shows your name, ID, email and both balances.
-It updates every time you come back to the menu.
+- Log in with your **ID** and **password**. You get **3 attempts** before access is refused.
+- Passwords are hidden while you type and are never stored as plain text. Only a SHA-256 hash is saved.
 
 ### Deposit
-Choose USD or KHR, then enter the amount.
-- Minimum deposit: **$1.00** or **4,000 KHR**
-- Riels must be whole numbers; dollars can have up to 2 decimal places (cents)
-- The screen stays open so you can make several deposits. Choose **0** to go back.
+- Choose USD or KHR, then enter the amount.
+- Minimum deposit: **$1.00** or **4,000 KHR**.
+- Riels must be whole numbers; dollars can have up to 2 decimal places (cents).
+- The screen stays open so you can make several deposits.
 
 ### Withdraw
-Choose USD or KHR, then enter the amount. You cannot withdraw more than your balance.
-Choose **0** to go back.
+- Choose USD or KHR, then enter the amount.
+- You cannot withdraw more than your balance.
 
 ### Transfer
-Send money to another account by entering its ID. The bank shows the receiver's name and asks you to
-confirm before sending. You cannot send money to yourself. Enter **0** at the ID prompt to go back.
+- Enter the receiver's ID. The bank shows their name and asks you to confirm (y/n) before sending.
+- You cannot send money to yourself or to a deleted account.
 
 ### Currency exchange
-Convert money between your own USD and KHR balances.
-- Rate: **1 USD = 4,000 KHR** (fixed; see *Settings* below to change it)
+- Rate: **1 USD = 4,000 KHR** (fixed; see [Configuration](#configuration) to change it).
 - **USD → KHR:** every dollar becomes 4,000 riels.
 - **KHR → USD:** you receive whole cents only (40 riels = 1 cent at the default rate). Riels too small to
   make a full cent stay in your account. For example, 4,039 KHR becomes $1.00 and the 39 KHR is kept.
-- You see the exact result and confirm (y/n) before anything changes. Choose **0** to go back.
+- You see the exact result and confirm (y/n) before anything changes.
 
 ### Transaction history
-Shows all your transactions in a table, newest first. Each row has:
+All your transactions in a table, newest first:
 
 | Column | Example |
 |--------|---------|
@@ -92,29 +148,21 @@ Shows all your transactions in a table, newest first. Each row has:
 | Balance after the transaction | `$8.50` |
 | Details | `To josh (ID 1001)` |
 
-A transfer appears in **both** accounts with the **same transaction ID**, so it can be traced.
-An exchange creates two rows (Exchange Out and Exchange In) that also share one ID.
-Enter **0** to go back.
+- A transfer appears in **both** accounts with the **same transaction ID**, so it can be traced.
+- An exchange creates two rows (Exchange Out and Exchange In) that share one ID.
 
 ### Delete account
-Permanently deletes your account and its transaction history.
-- Your balances must be **$0.00 and 0 KHR** first, so no money is lost. Withdraw or transfer the rest
-  before deleting.
-- You must enter your **password** again and then type **`DELETE`** (in capital letters) to confirm.
-  Anything else cancels.
+- Your balances must be **$0.00 and 0 KHR** first, so no money is lost. Withdraw or transfer the rest.
+- Enter your **password** again, then type **`DELETE`** (in capital letters) to confirm. Anything else cancels.
 - After deleting, you are logged out. The account can no longer log in or receive transfers.
-- The deleted account's ID is **never given to a new user**, because other people's transaction history
-  may still mention it. `users.json` keeps only a small placeholder for that ID
-  (`{"deleted": true, "deleted_at": "..."}`). Your name, email, password and history are removed.
+- The deleted ID is **never given to a new user**, because other people's history may still mention it.
+  `users.json` keeps only a placeholder (`{"deleted": true, "deleted_at": "..."}`). The name, email,
+  password and history are removed.
 - The built-in **admin** account (ID 1000) cannot be deleted.
 
 ---
 
-## Diagrams
-
-The diagrams are written in [Mermaid](https://mermaid.js.org/). They show as pictures on GitHub, GitLab,
-and in VS Code with the *Markdown Preview Mermaid Support* extension. Other viewers show the diagram code
-as text.
+## How it works
 
 ### Feature flow
 
@@ -147,7 +195,7 @@ flowchart TD
 ### Function map
 
 How the functions in `bank.py` call each other. `main()` runs the start menu, `banking_menu()` runs the
-main menu after login, and every feature uses the shared helpers listed below.
+main menu after login, and every feature uses the shared helpers.
 
 ```mermaid
 flowchart TD
@@ -174,7 +222,13 @@ flowchart TD
     load_users -->|"read"| json
 ```
 
+> The diagrams use [Mermaid](https://mermaid.js.org/). GitHub shows them as pictures. In VS Code, install
+> the *Markdown Preview Mermaid Support* extension to see them.
+
 ### Function reference
+
+<details>
+<summary>Show all functions in <code>bank.py</code></summary>
 
 | Group | Function | What it does |
 |-------|----------|--------------|
@@ -208,18 +262,22 @@ flowchart TD
 | **Storage** | `load_users()` | Reads `users.json` |
 | | `save_users()` | Writes `users.json` |
 
+</details>
+
 ---
 
-## Files
+## Project structure
 
-| File | What it is |
-|------|------------|
-| `bank.py` | The program |
-| `users.json` | Saved accounts: name, email, password hash, balances and transaction history |
-| `requirements.txt` | The Python libraries to install (Rich) |
-| `README.md` | This file |
+```text
+Python-BankingSystem/
+├── bank.py            # The program
+├── users.json         # Saved accounts, balances and transaction history
+├── requirements.txt   # Python libraries to install (Rich)
+└── README.md          # This file
+```
 
-Example of one account in `users.json`:
+<details>
+<summary>Example account in <code>users.json</code></summary>
 
 ```json
 "1000": {
@@ -234,7 +292,11 @@ Example of one account in `users.json`:
 }
 ```
 
-## Settings
+</details>
+
+---
+
+## Configuration
 
 These values are at the top of `bank.py` and can be changed:
 
@@ -244,15 +306,16 @@ These values are at the top of `bank.py` and can be changed:
 | `MIN_DEPOSIT` | `$1` / `4,000 KHR` | Smallest deposit allowed in each currency |
 | `MIN_PASSWORD_LENGTH` | `4` | Shortest password allowed at sign-up |
 | `MAX_LOGIN_ATTEMPTS` | `3` | Wrong logins allowed before access is refused |
+| `ADMIN_ID` | `"1000"` | Account that cannot be deleted |
 | `CYAN`, `ELECTRIC_GREEN` | `#00FFFF`, `#39FF14` | Theme colors |
 
-## Notes
+---
 
-- This is a learning project, not real banking software. A real bank would store money as whole cents,
+## Notes and limitations
+
+- This is a **learning project**, not real banking software. A real bank would store money as whole cents,
   use a slow salted password hash (such as bcrypt), and keep data in a database.
 - The big welcome banner needs a window about 110 characters wide. In a narrower window it switches to a
   plain one-line title.
 - If the colors don't show, run the program in Windows Terminal (or any modern terminal) instead of an
   old command prompt window.
-#   P y t h o n - B a n k i n g S y s t e m  
- 
